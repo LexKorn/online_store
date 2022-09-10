@@ -70,6 +70,18 @@ class DeviceController {
 
         return res.json(device);
     }
+
+    async delete(req, res) {
+        const {id} = req.params;
+        await Device.destroy(
+            {
+                where: {id},
+                include: [{model: DeviceInfo, as: 'info'}]
+            }
+        );
+
+        return res.json('Device was deleted');
+    }
 };
 
 module.exports = new DeviceController();
