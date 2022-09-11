@@ -18,6 +18,13 @@ class BrandController {
         await Brand.destroy({where: {id}});
         return res.json('Brand was deleted');
     }
+
+    async update(req, res) {
+        const {id} = req.params;
+        const {name} = req.body;
+        await Brand.update({name}, {where: {id}});
+        return res.json('Brand was updated');
+    }
 };
 
 module.exports = new BrandController();

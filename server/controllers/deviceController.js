@@ -82,6 +82,13 @@ class DeviceController {
 
         return res.json('Device was deleted');
     }
+
+    async update(req, res) {
+        const {id} = req.params;
+        const {name, price} = req.body;
+        await Device.update({name, price}, {where: {id}});
+        return res.json('Device was updated');
+    }
 };
 
 module.exports = new DeviceController();

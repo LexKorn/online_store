@@ -18,6 +18,13 @@ class TypeController {
         await Type.destroy({where: {id}});
         return res.json('Type was deleted');
     }
+
+    async update(req, res) {
+        const {id} = req.params;
+        const {name} = req.body;
+        await Type.update({name}, {where: {id}});
+        return res.json('Type was updated');
+    }
 };
 
 module.exports = new TypeController();

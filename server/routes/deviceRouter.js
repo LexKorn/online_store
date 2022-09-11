@@ -7,6 +7,7 @@ router.post('/', checkRole('ADMIN'), deviceController.create);
 router.get('/', deviceController.getAll);
 router.get('/:id', deviceController.getONe);
 router.delete('/:id', checkRole('ADMIN'), deviceController.delete);
+router.put('/:id', checkRole('ADMIN'), deviceController.update);
 
 
 module.exports = router;
