@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container, Form, Card, Row, Button} from 'react-bootstrap';
+import {Container, Form, Card, Button} from 'react-bootstrap';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import { LOGIN_ROUTE, REGISTER_ROUTE } from '../utils/consts';
@@ -24,7 +24,7 @@ const AuthPage = () => {
                         className="mt-3"
                         placeholder="Введите ваш пароль..."
                     />
-                    <div className="d-flex justify-content-between mt-3 pl-3 pr-3">
+                    <div className="d-flex justify-content-between mt-3">
                         {isLogin ?
                             <div>
                                 Нет аккаунта? <NavLink to={REGISTER_ROUTE}>Зарегистрируйтесь!</NavLink>
