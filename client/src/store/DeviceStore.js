@@ -18,7 +18,9 @@ export default class DeviceStore {
         {id: 1, name:"Iphone 12 pro", price: 25000, rating: 5, img: 'https://avatars.mds.yandex.net/get-mpic/4076910/img_id4257786938655538831.png/orig'},
         {id: 2, name:"Iphone 12 pro", price: 25000, rating: 5, img: 'https://avatars.mds.yandex.net/get-mpic/4076910/img_id4257786938655538831.png/orig'},
         {id: 3, name:"Iphone 12 pro", price: 25000, rating: 5, img: 'https://avatars.mds.yandex.net/get-mpic/4076910/img_id4257786938655538831.png/orig'},
-        {id: 4, name:"Iphone 12 pro", price: 25000, rating: 5, img: 'https://avatars.mds.yandex.net/get-mpic/4076910/img_id4257786938655538831.png/orig'}
+        {id: 4, name:"Iphone 12 pro", price: 25000, rating: 5, img: 'https://avatars.mds.yandex.net/get-mpic/4076910/img_id4257786938655538831.png/orig'},
+        {id: 5, name:"Iphone 12 pro", price: 25000, rating: 5, img: 'https://avatars.mds.yandex.net/get-mpic/4076910/img_id4257786938655538831.png/orig'},
+        {id: 6, name:"Iphone 12 pro", price: 25000, rating: 5, img: 'https://avatars.mds.yandex.net/get-mpic/4076910/img_id4257786938655538831.png/orig'}
        ];
        this._selectedType = {};
        this._selectedBrand = {};
