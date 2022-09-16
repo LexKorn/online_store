@@ -1,12 +1,37 @@
-import React from 'react';
+import React, {useState, useContext} from 'react';
 import {Container, Form, Card, Button} from 'react-bootstrap';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useHistory } from 'react-router-dom';
+import {observer} from 'mobx-react-lite'
 
-import { LOGIN_ROUTE, REGISTER_ROUTE } from '../utils/consts';
+import { LOGIN_ROUTE, REGISTER_ROUTE, SHOP_ROUTE } from '../utils/consts';
+import { login, registration } from '../http/userAPI';
+import {Context} from '../index';
 
-const AuthPage = () => {
+
+const AuthPage = observer(() => {
+    const {user} = useContext(Context);
     const location = useLocation();
+    const history = useHistory();
     const isLogin = location.pathname === LOGIN_ROUTE;
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const click = async () => {
+        try {
+            let data;
+            if (isLogin) {
+                data = await login(email, password);
+            } else {
+                data = await registration(email, password);
+            }
+    
+            user.setUser(user);
+            user.setIsAuth(true);
+            history.push(SHOP_ROUTE);
+        } catch(err) {
+            alert(err.response.data.message);
+        }        
+    };
 
     return (
         <Container 
@@ -19,10 +44,15 @@ const AuthPage = () => {
                     <Form.Control
                         className="mt-3"
                         placeholder="Введите ваш email..."
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
                     />
                     <Form.Control
                         className="mt-3"
                         placeholder="Введите ваш пароль..."
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        type='password'
                     />
                     <div className="d-flex justify-content-between mt-3">
                         {isLogin ?
@@ -34,12 +64,17 @@ const AuthPage = () => {
                                 Есть аккаунт? <NavLink to={LOGIN_ROUTE}>Войдите!</NavLink>
                             </div>
                         }                        
-                        <Button variant={"outline-success"}>{isLogin ? 'Войти' : 'Регистрация'}</Button>
+                        <Button 
+                            onClick={click}
+                            variant={"outline-success"}
+                            >
+                            {isLogin ? 'Войти' : 'Регистрация'}
+                        </Button>
                     </div>
                 </Form>
             </Card>
         </Container>
     );
-};
+});
 
 export default AuthPage;
