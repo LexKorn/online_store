@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Container, Col, Row, Image, Card, Button } from 'react-bootstrap';
+import { Container, Col, Row, Image, Card, Button, Spinner } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 
 import bigStar from '../assets/bigStar.png';
@@ -9,10 +9,17 @@ import { fetchOneDevice } from '../http/deviceAPI';
 const DevicePage = () => {
     const [device, setDevice] = useState({info: []});
     const {id} = useParams();
+    const [loading, setLoading] = useState(true);
     
     useEffect(() => {
-        fetchOneDevice(id).then(data => setDevice(data));
+        fetchOneDevice(id)
+            .then(data => setDevice(data))
+            .finally(() => setLoading(false));
     }, []);
+
+    if (loading) {
+        return <Spinner animation={"border"}/>
+    }
 
     return (
         <Container className="mt-3">

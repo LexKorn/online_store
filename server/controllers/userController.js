@@ -1,11 +1,9 @@
 const bcrypt = require('bcrypt');
-const { bgRed } = require('colors');
 const jwt = require('jsonwebtoken');
 
 const ApiError = require('../error/ApiError');
 const {User, Basket} = require('../models/models');
 
-// require('colors');
 require('dotenv').config();
 
 const generateJwt = (id, email, role) => {

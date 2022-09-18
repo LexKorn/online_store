@@ -50,7 +50,7 @@ const CreateDevice = observer(({show, onHide}) => {
         <Modal
             show={show}
             onHide={onHide}
-            size="lg"
+            size="md"
             centered
             >
             <Modal.Header>
