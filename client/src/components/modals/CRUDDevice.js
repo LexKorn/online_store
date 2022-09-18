@@ -6,7 +6,7 @@ import { Context } from '../../index';
 import { fetchTypes, fetchBrands, createDevice } from '../../http/deviceAPI';
 
 
-const CreateDevice = observer(({show, onHide}) => {
+const CRUDDevice = observer(({show, onHide}) => {
     const {device} = useContext(Context);
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
@@ -145,4 +145,4 @@ const CreateDevice = observer(({show, onHide}) => {
     );
 });
 
-export default CreateDevice;
+export default CRUDDevice;

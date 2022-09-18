@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Container } from 'react-bootstrap';
 
-import CreateBrand from '../components/modals/CreateBrand';
-import CreateDevice from '../components/modals/CreateDevice';
-import CreateType from '../components/modals/CreateType';
+import CRUDBrand from '../components/modals/CRUDBrand';
+import CRUDDevice from '../components/modals/CRUDDevice';
+import CRUDType from '../components/modals/CRUDType';
 
 
 const AdminPage = () => {
@@ -18,25 +18,25 @@ const AdminPage = () => {
                 className="mt-4 p-2"
                 onClick={() => setTypeVisible(true)}
                 >
-                Добавить тип
+                ТИП - добавить / удалить
             </Button>
             <Button 
                 variant={"outline-dark"} 
                 className="mt-4 p-2"
                 onClick={() => setBrandVisible(true)}
                 >
-                Добавить бренд
+                БРЕНД - добавить / удалить
             </Button>
             <Button 
                 variant={"outline-dark"} 
                 className="mt-4 p-2"
                 onClick={() => setDeviceVisible(true)}
                 >
-                Добавить устройство
+                УСТРОЙСТВО - добавить / удалить
             </Button>
-            <CreateType show={typeVisible} onHide={() => setTypeVisible(false)} />            
-            <CreateBrand show={brandVisible} onHide={() => setBrandVisible(false)} />
-            <CreateDevice show={deviceVisible} onHide={() => setDeviceVisible(false)} />
+            <CRUDType show={typeVisible} onHide={() => setTypeVisible(false)} />            
+            <CRUDBrand show={brandVisible} onHide={() => setBrandVisible(false)} />
+            <CRUDDevice show={deviceVisible} onHide={() => setDeviceVisible(false)} />
         </Container>
     );
 };

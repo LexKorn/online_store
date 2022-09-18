@@ -1,14 +1,21 @@
 import React, {useState} from 'react';
 import {Modal, Button, Form} from 'react-bootstrap';
 
-import {createBrand} from '../../http/deviceAPI';
+import {createBrand, deleteBrand} from '../../http/deviceAPI';
 
 
-const CreateBrand = ({show, onHide}) => {
+const CRUDBrand = ({show, onHide}) => {
     const [value, setValue] = useState('');
 
     const addBrand = () => {
         createBrand({name: value}).then(data => {
+            setValue('');
+            onHide();
+        });
+    };
+
+    const removeBrand = () => {
+        deleteBrand(value).then(data => {
             setValue('');
             onHide();
         });
@@ -36,11 +43,12 @@ const CreateBrand = ({show, onHide}) => {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant={"outline-danger"} onClick={onHide}>Закрыть</Button>
+                <Button variant={"outline-secondary "} onClick={onHide}>Закрыть</Button>
                 <Button variant={"outline-success"} onClick={addBrand}>Добавить</Button>
+                <Button variant={"outline-danger"} onClick={removeBrand}>Удалить</Button>
             </Modal.Footer>
         </Modal>
     );
 };
 
-export default CreateBrand;
+export default CRUDBrand;
