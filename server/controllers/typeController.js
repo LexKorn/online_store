@@ -2,8 +2,13 @@ const {Type} = require('../models/models');
 const ApiError = require('../error/ApiError');
 
 class TypeController {
-    async create(req, res) {
+    async create(req, res, next) {
         const {name} = req.body;
+        const candicate = await Type.findOne({where: {name}});
+        if (candicate) {
+            return next(ApiError.badRequest('Тип с таким именем уже существует!'));
+        } 
+
         const type = await Type.create({name});        
         return res.json(type);
     }

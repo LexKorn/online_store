@@ -32,7 +32,7 @@ const AdminPage = () => {
                 className="mt-4 p-2"
                 onClick={() => setDeviceVisible(true)}
                 >
-                УСТРОЙСТВО - добавить / удалить
+                УСТРОЙСТВО - добавить / обновить / удалить
             </Button>
             <CRUDType show={typeVisible} onHide={() => setTypeVisible(false)} />            
             <CRUDBrand show={brandVisible} onHide={() => setBrandVisible(false)} />

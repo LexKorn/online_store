@@ -1,23 +1,30 @@
 import React, {useState} from 'react';
+import { useHistory } from 'react-router-dom';
 import {Modal, Button, Form} from 'react-bootstrap';
 
 import {createType, deleteType} from '../../http/deviceAPI';
+import { SHOP_ROUTE } from '../../utils/consts';
 
 
 const CRUDType = ({show, onHide}) => {
     const [value, setValue] = useState('');
+    const history = useHistory();
 
     const addType = () => {
-        createType({name: value}).then(data => {
-            setValue('');
-            onHide();
-        });
+        createType({name: value})
+            .then(data => {
+                setValue('');
+                onHide();
+                history.push(SHOP_ROUTE);
+            })
+            .catch(err => alert(err.response.data.message));  
     };
 
     const removeType = () => {
         deleteType(value).then(data => {
             setValue('');
             onHide();
+            history.push(SHOP_ROUTE);
         });
     };
 
@@ -30,7 +37,7 @@ const CRUDType = ({show, onHide}) => {
             >
             <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Добавить тип
+                Выберите действие с типом
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>

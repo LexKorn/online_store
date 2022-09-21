@@ -1,17 +1,21 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import {Modal, Button, Form, Dropdown, Col, Row} from 'react-bootstrap';
 import { observer } from 'mobx-react-lite';
 
 import { Context } from '../../index';
-import { fetchTypes, fetchBrands, createDevice } from '../../http/deviceAPI';
+import { fetchTypes, fetchBrands, createDevice, deleteDevice, updateDevice } from '../../http/deviceAPI';
+import { SHOP_ROUTE } from '../../utils/consts';
 
 
 const CRUDDevice = observer(({show, onHide}) => {
     const {device} = useContext(Context);
+    const history = useHistory();
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
     const [file, setFile] = useState(null);
     const [info, setInfo] = useState([]);
+    const [id, setId] = useState('');
 
     useEffect(() => {
         fetchTypes().then(data => device.setTypes(data));
@@ -43,8 +47,30 @@ const CRUDDevice = observer(({show, onHide}) => {
         formData.append('typeId', device.selectedType.id);
         formData.append('info', JSON.stringify(info));
 
-        createDevice(formData).then(data => onHide());
+        createDevice(formData).then(data => {
+            onHide();
+            history.push(SHOP_ROUTE);
+        });
     };
+
+    const removeDevice = () => {
+        deleteDevice(id).then(data => {
+            onHide();
+            history.push(SHOP_ROUTE);
+        });
+    };
+
+    const editDevice = () => {
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('price', `${price}`);
+
+        updateDevice(id, formData).then(data => {
+            onHide();
+            history.push(SHOP_ROUTE);
+        });
+    };
+
 
     return (
         <Modal
@@ -55,11 +81,12 @@ const CRUDDevice = observer(({show, onHide}) => {
             >
             <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Добавить устройство
+                Выберите действие с устройством
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
+                    <h5>Добавить новое устройство</h5>
                     <Dropdown className="mt-2 mb-2">
                         <Dropdown.Toggle>{device.selectedType.name || 'Выберите тип'}</Dropdown.Toggle>
                         <Dropdown.Menu>
@@ -96,7 +123,7 @@ const CRUDDevice = observer(({show, onHide}) => {
                         onChange={e => setPrice(Number(e.target.value))}
                         placeholder="Введите стоимость устройства"
                         type="number"
-                    />
+                    />                     
                     <Form.Control
                         className="mt-3"
                         type="file"
@@ -134,12 +161,20 @@ const CRUDDevice = observer(({show, onHide}) => {
                             </Button>
                             </Col>
                         </Row>    
-                    )}                    
+                    )} 
+                    <Form.Control
+                        className="mt-3"
+                        value={id}
+                        onChange={e => setId(e.target.value)}
+                        placeholder={"Введите id для удаления или обновления устройства"}
+                    />                    
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant={"outline-danger"} onClick={onHide}>Закрыть</Button>
-                <Button variant={"outline-success"} onClick={addDevice}>Добавить</Button>
+                <Button variant={"outline-secondary"} onClick={onHide}>Закрыть</Button>
+                <Button variant={"outline-success"} onClick={addDevice}>Добавить</Button>           
+                <Button variant={"outline-danger"} onClick={editDevice}>Обновить</Button>     
+                <Button variant={"outline-danger"} onClick={removeDevice}>Удалить</Button>   
             </Modal.Footer>
         </Modal>
     );

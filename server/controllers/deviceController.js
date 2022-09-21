@@ -35,60 +35,80 @@ class DeviceController {
     }
 
     async getAll(req, res) {
-        let {brandId, typeId, limit, page} = req.query;
-        page = page || 1;
-        limit = limit || 9;
-        let offset = page * limit - limit;
-        let devices;
+        try {
+            let {brandId, typeId, limit, page} = req.query;
+            page = page || 1;
+            limit = limit || 9;
+            let offset = page * limit - limit;
+            let devices;
 
-        if (!brandId && !typeId) {
-            devices = await Device.findAndCountAll({limit, offset});
+            if (!brandId && !typeId) {
+                devices = await Device.findAndCountAll({limit, offset});
+            }
+
+            if (brandId && !typeId) {
+                devices = await Device.findAndCountAll({where:{brandId}, limit, offset});
+            }
+
+            if (!brandId && typeId) {
+                devices = await Device.findAndCountAll({where:{typeId}, limit, offset});
+            }
+
+            if (brandId && typeId) {
+                devices = await Device.findAndCountAll({where:{brandId, typeId}, limit, offset});
+            }
+
+            return res.json(devices);
+
+        } catch(err) {
+            next(ApiError.badRequest(err.message));
         }
-
-        if (brandId && !typeId) {
-            devices = await Device.findAndCountAll({where:{brandId}, limit, offset});
-        }
-
-        if (!brandId && typeId) {
-            devices = await Device.findAndCountAll({where:{typeId}, limit, offset});
-        }
-
-        if (brandId && typeId) {
-            devices = await Device.findAndCountAll({where:{brandId, typeId}, limit, offset});
-        }
-
-        return res.json(devices);
     }
 
     async getONe(req, res) {
-        const {id} = req.params;
-        const device = await Device.findOne(
-            {
-                where: {id},
-                include: [{model: DeviceInfo, as: 'info'}]
-            }
-        );
+        try {
+            const {id} = req.params;
+            const device = await Device.findOne(
+                {
+                    where: {id},
+                    include: [{model: DeviceInfo, as: 'info'}]
+                }
+            );
 
-        return res.json(device);
+            return res.json(device);
+
+        } catch(err) {
+            next(ApiError.badRequest(err.message));
+        }
     }
 
     async delete(req, res) {
-        const {id} = req.params;
-        await Device.destroy(
-            {
-                where: {id},
-                include: [{model: DeviceInfo, as: 'info'}]
-            }
-        );
+        try {
+            const {id} = req.params;
+            await Device.destroy(
+                {
+                    where: {id},
+                    include: [{model: DeviceInfo, as: 'info'}]
+                }
+            );
 
-        return res.json('Device was deleted');
+            return res.json('Device was deleted');
+
+        } catch(err) {
+            next(ApiError.badRequest(err.message));
+        }
     }
 
     async update(req, res) {
-        const {id} = req.params;
-        const {name, price} = req.body;
-        await Device.update({name, price}, {where: {id}});
-        return res.json('Device was updated');
+        try {
+            const {id} = req.params;
+            const {name, price} = req.body;
+            await Device.update({name, price}, {where: {id}});
+            return res.json('Device was updated');
+
+        } catch(err) {
+            next(ApiError.badRequest(err.message));
+        }
     }
 };
 

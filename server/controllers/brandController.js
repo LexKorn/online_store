@@ -2,8 +2,13 @@ const {Brand} = require('../models/models');
 const ApiError = require('../error/ApiError');
 
 class BrandController {
-    async create(req, res) {
+    async create(req, res, next) {
         const {name} = req.body;
+        const candicate = await Brand.findOne({where: {name}});
+        if (candicate) {
+            return next(ApiError.badRequest('Бренд с таким именем уже существует!'));
+        } 
+        
         const brand = await Brand.create({name});        
         return res.json(brand);
     }
