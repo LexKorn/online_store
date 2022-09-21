@@ -17,14 +17,14 @@ const ShopPage = observer(() => {
     useEffect(() => {
         fetchTypes().then(data => device.setTypes(data));
         fetchBrands().then(data => device.setBrands(data));
-        fetchDevices(null, null, 1, 4).then(data => {
+        fetchDevices(null, null, 1, 8).then(data => {
             device.setDevices(data.rows);
             device.setTotalCount(data.count);
         }).finally(() => setLoading(false));
     }, []);
 
     useEffect(() => {
-        fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, 4).then(data => {
+        fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, 8).then(data => {
             device.setDevices(data.rows);
             device.setTotalCount(data.count);
         }).finally(() => setLoading(false));

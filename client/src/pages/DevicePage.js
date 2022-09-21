@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import bigStar from '../assets/bigStar.png';
 import { fetchOneDevice } from '../http/deviceAPI';
+import { addToBasket } from '../http/basketAPI';
 
 
 const DevicePage = () => {
@@ -16,6 +17,12 @@ const DevicePage = () => {
             .then(data => setDevice(data))
             .finally(() => setLoading(false));
     }, []);
+
+    const addDivToBask = () => {
+        const formData = new FormData();
+        formData.append('deviceId', id);
+        addToBasket(formData).then(response => alert(`Товар ` + device.name + ` был добавлен в вашу корзину!`));
+    };
 
     if (loading) {
         return <Spinner animation={"border"}/>
@@ -42,7 +49,7 @@ const DevicePage = () => {
                         className="d-flex flex-column align-items-center justify-content-around"
                         style={{width: 300, height: 300, fontSize: 32, border: '5px solid lightgray'}}>
                         <h3>От: {device.price} руб.</h3>
-                        <Button variant={"outline-dark"} >Добавить в корзину</Button>
+                        <Button variant={"outline-dark"} onClick={addDivToBask} >Добавить в корзину</Button>
                     </Card>
                 </Col>
             </Row>       

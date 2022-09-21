@@ -34,7 +34,7 @@ class DeviceController {
         }
     }
 
-    async getAll(req, res) {
+    async getAll(req, res, next) {
         try {
             let {brandId, typeId, limit, page} = req.query;
             page = page || 1;
@@ -65,7 +65,7 @@ class DeviceController {
         }
     }
 
-    async getONe(req, res) {
+    async getONe(req, res, next) {
         try {
             const {id} = req.params;
             const device = await Device.findOne(
@@ -82,7 +82,7 @@ class DeviceController {
         }
     }
 
-    async delete(req, res) {
+    async delete(req, res, next) {
         try {
             const {id} = req.params;
             await Device.destroy(
@@ -99,7 +99,7 @@ class DeviceController {
         }
     }
 
-    async update(req, res) {
+    async update(req, res, next) {
         try {
             const {id} = req.params;
             const {name, price} = req.body;
