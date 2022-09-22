@@ -25,7 +25,8 @@ const AuthPage = observer(() => {
                 data = await registration(email, password);
             }
     
-            user.setUser(user);
+            user.setUser(data.role);
+            user.setIsUser(data.id);
             user.setIsAuth(true);
             history.push(SHOP_ROUTE);
         } catch(err) {

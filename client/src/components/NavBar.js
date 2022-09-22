@@ -14,7 +14,7 @@ const NavBar = observer(() => {
     const logOut = () => {
         user.setUser({});
         user.setIsAuth(false);
-        user.setIsAdmin(false);
+        user.setIsUser({});
         localStorage.clear('token');
     };
 
@@ -31,7 +31,7 @@ const NavBar = observer(() => {
                         >
                             Корзина
                         </Button>
-                        {user.isAdmin ?
+                        {user.isRole === 'ADMIN' ?
                             <Button 
                                 variant={"outline-light"} 
                                 onClick={() => history.push(ADMIN_ROUTE)}>

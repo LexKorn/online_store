@@ -3,8 +3,8 @@ import {makeAutoObservable} from 'mobx';
 export default class UserStore {
     constructor() {
        this._isAuth = false;
-       this._isAdmin = true;
-       this._user = {};
+       this._isUser = {};
+       this._isRole = {};
        makeAutoObservable(this); 
     };
 
@@ -12,12 +12,12 @@ export default class UserStore {
         this._isAuth = bool;
     };
 
-    setIsAdmin(bool) {
-        this._isAdmin = bool;
+    setIsUser(bool) {
+        this._isUser = bool;
     };
 
-    setUser(user) {
-        this._user = user;
+    setUser(bool) {
+        this._isRole = bool;
     };
 
 
@@ -25,11 +25,11 @@ export default class UserStore {
         return this._isAuth;
     };
 
-    get isAdmin() {
-        return this._isAdmin;
+    get isUser() {
+        return this._isUser;
     };
 
-    get user() {
-        return this._user;
+    get isRole() {
+        return this._isRole;
     };
 };

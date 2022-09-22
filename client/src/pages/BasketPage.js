@@ -16,6 +16,7 @@ const BasketPage = observer(() => {
     const removeProduct = (event) => {
         deleteFromBasket(event).then(data => {
             getBasket().then(data => basket.setBaskets(data));
+            // window.location.reload();
         });
     };
 
