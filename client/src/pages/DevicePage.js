@@ -1,18 +1,21 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { Container, Col, Row, Image, Card, Button, Spinner } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 
 import bigStar from '../assets/bigStar.png';
-import { fetchOneDevice } from '../http/deviceAPI';
+import { fetchOneDevice, fetchBrands } from '../http/deviceAPI';
 import { addToBasket } from '../http/basketAPI';
+import {Context} from '../index';
 
 
 const DevicePage = () => {
     const [device, setDevice] = useState({info: []});
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
+    const {device: dev} = useContext(Context);
     
     useEffect(() => {
+        fetchBrands().then(data => dev.setBrands(data));
         fetchOneDevice(id)
             .then(data => setDevice(data))
             .finally(() => setLoading(false));
@@ -23,6 +26,8 @@ const DevicePage = () => {
         formData.append('deviceId', id);
         addToBasket(formData).then(response => alert(`Товар ` + device.name + ` был добавлен в вашу корзину!`));
     };
+
+    const brand = dev.brands.filter(brand => brand.id === device.brandId);
 
     if (loading) {
         return <Spinner animation={"border"}/>
@@ -35,8 +40,9 @@ const DevicePage = () => {
                     <Image width={300} height={300} style={{objectFit:'contain'}} src={process.env.REACT_APP_API_URL + device.img} />
                 </Col>
                 <Col md={4}>
-                    <Row className="d-flex flex-column align-items-center">
-                        <h2>{device.name}</h2>
+                    <Row  className="d-flex justify-content-center align-items-center">
+                        <h2 style={{'textAlign': 'center'}}>{device.name}</h2>
+                        <h2 style={{'textAlign': 'center'}}>{brand[0].name}</h2>
                         <div 
                             className="d-flex align-items-center justify-content-center"
                             style={{background: `url(${bigStar}) no-repeat center center`, width:240, height:240, backgroundSize: 'cover', fontSize:60}}>
